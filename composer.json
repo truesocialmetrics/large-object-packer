@@ -1,0 +1,24 @@
+{
+    "name": "necromant2005/tt-packer",
+    "type": "library",
+    "description": "helper for storing large object in memcache and other zend cache adpters",
+    "keywords": ["helper", "memcache", "large object"],
+    "homepage": "https://github.com/necromant2005/tt-packer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rostislav Mykhajliw",
+            "email": "necromant2005@gmail.com",
+            "homepage": "https://github.com/necromant2005",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "TweePacker": "src/"
+        }
+    }
+}
