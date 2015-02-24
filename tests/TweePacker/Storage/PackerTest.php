@@ -35,6 +35,13 @@ class PackerTest extends PHPUnit_Framework_TestCase
         $service = new Packer(new AdapterMemory(), 10);
         $service->setItem('xxx', $data);
         $this->assertEquals($data, $service->getItem('xxx'));
-        $this->assertCount(4, $service->getStorage()->getIterator());
+        $this->assertCount(5, $service->getStorage()->getIterator());
+    }
+
+    public function testEmpty()
+    {
+        $service = new Packer(new AdapterMemory());
+        $this->assertEquals(false, $service->getItem('xxx'));
+        $this->assertCount(0, $service->getStorage()->getIterator());
     }
 }

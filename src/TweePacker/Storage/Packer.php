@@ -39,6 +39,7 @@ class Packer
 
     public function setItem($key, $value)
     {
+        $value = serialize($value);
         if (strlen($value) < $this->getMaxItemSize()) {
             return $this->getStorage()->setItem($key, $value);
         }
@@ -64,6 +65,6 @@ class Packer
         } else {
             $value = $raw;
         }
-        return $value;
+        return unserialize($value);
     }
 }
