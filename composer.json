@@ -1,9 +1,9 @@
 {
-    "name": "necromant2005/tt-packer",
+    "name": "truesocialmetrics/memcache-large-object-packer",
     "type": "library",
     "description": "helper for storing large object in memcache and other zend cache adpters",
     "keywords": ["helper", "memcache", "large object"],
-    "homepage": "https://github.com/necromant2005/tt-packer",
+    "homepage": "https://github.com/truesocialmetrics/memcache-large-object-packer",
     "license": "MIT",
     "authors": [
         {
@@ -14,12 +14,12 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=7.1",
         "zendframework/zend-cache": "*"
     },
     "autoload": {
-        "psr-0": {
-            "TweePacker": "src/"
+        "psr-4": {
+            "TweePacker\\": "src/TweePacker"
         }
     }
 }

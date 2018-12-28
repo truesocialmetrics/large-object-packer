@@ -1,13 +1,13 @@
 <?php
 namespace TweePacker\Storage;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Cache\Storage\Adapter\Memory as AdapterMemory;
 
-class PackerTest extends PHPUnit_Framework_TestCase
+class PackerTest extends TestCase
 {
     public function testInit()
     {
-        $storage = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $storage = $this->createMock('Zend\Cache\Storage\StorageInterface');
         $service = new Packer($storage);
         $this->assertEquals($storage, $service->getStorage());
         $this->assertEquals(Packer::MAX_ITEM_SIZE, $service->getMaxItemSize());
@@ -15,7 +15,7 @@ class PackerTest extends PHPUnit_Framework_TestCase
 
     public function testInitOverride()
     {
-        $storage = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $storage = $this->createMock('Zend\Cache\Storage\StorageInterface');
         $service = new Packer($storage, 1000);
         $this->assertEquals($storage, $service->getStorage());
         $this->assertEquals(1000, $service->getMaxItemSize());

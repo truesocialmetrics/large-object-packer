@@ -1,8 +1,8 @@
 <?php
 namespace TweePacker\Utils;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class PackTest extends PHPUnit_Framework_TestCase
+class PackTest extends TestCase
 {
     public function testInit()
     {
