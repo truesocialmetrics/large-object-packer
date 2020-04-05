@@ -1,6 +1,6 @@
 <?php
 namespace TweePacker\Storage;
-use Zend\Cache\Storage\StorageInterface;
+use Laminas\Cache\Storage\StorageInterface;
 use TweePacker\Utils\Pack as UtilsPack;
 
 class Packer
