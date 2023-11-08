@@ -15,7 +15,8 @@
     ],
     "require": {
         "php": ">=7.4",
-        "laminas/laminas-cache": "*"
+        "laminas/laminas-cache": "*",
+        "mongodb/mongodb": "*"
     },
     "autoload": {
         "psr-4": {
