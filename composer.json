@@ -1,20 +1,20 @@
 {
-    "name": "truesocialmetrics/memcache-large-object-packer",
+    "name": "truesocialmetrics/large-object-packer",
     "type": "library",
-    "description": "helper for storing large object in memcache and other zend cache adpters",
-    "keywords": ["helper", "memcache", "large object"],
-    "homepage": "https://github.com/truesocialmetrics/memcache-large-object-packer",
+    "description": "helper for storing large object in laminas cache adapters",
+    "keywords": ["helper", "large object"],
+    "homepage": "https://github.com/truesocialmetrics/large-object-packer",
     "license": "MIT",
     "authors": [
         {
-            "name": "Rostislav Mykhajliw",
+            "name": "Rostyslav Mykhajliw",
             "email": "necromant2005@gmail.com",
             "homepage": "https://github.com/necromant2005",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "laminas/laminas-cache": "*",
         "mongodb/mongodb": "*"
     },
