@@ -13,31 +13,33 @@ use MongoDB\Client as SystemMongoDBClient;
 
 class MongoDb implements StorageInterface, TaggableInterface
 {
-	private const FIELD_KEY = '_id';
-	private const FIELD_VALUE = 'value';
-	private const FIELD_TAGS = 'tags';
-	private const FIELD_DATESTAMP = 'created_at';
+    private const FIELD_KEY = '_id';
+    private const FIELD_VALUE = 'value';
+    private const FIELD_TAGS = 'tags';
+    private const FIELD_DATESTAMP = 'created_at';
 
-	private $options = [];
+    private $options = [];
 
-	private $collection = null;
+    private $collection = null;
 
-	public function __construct(array $options)
-	{
-		$this->options = $options;
-	}
+    public function __construct(array $options)
+    {
+        $this->options = $options;
+    }
 
-	private function getCollection()
-	{
-		if ($this->collection) {
-			return $this->collection;
-		}
-		$client = new SystemMongoDBClient($this->options);
-		$db = $client->selectDatabase($this->options['database']);
-		$this->collection = $client->selectDatabase($this->options['collection']);
+    private function getCollection()
+    {
+        if ($this->collection) {
+            return $this->collection;
+        }
+        $client = new SystemMongoDBClient($this->options['uri'],
+            $this->options['uriOptions'],
+            $this->options['driverOptions']);
+        $db = $client->selectDatabase($this->options['database']);
+        $this->collection = $db->selectCollection($this->options['collection']);
 
-		return $this->collection;
-	}
+        return $this->collection;
+    }
 
     /**
      * Set options.
@@ -47,7 +49,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function setOptions($options)
     {
-    	$this->options = $options;
+        $this->options = $options;
     }
 
     /**
@@ -57,7 +59,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getOptions()
     {
-    	return $this->options;
+        return $this->options;
     }
 
     /* reading */
@@ -73,12 +75,12 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getItem($key, & $success = null, & $casToken = null)
     {
-    	$item = $this->getCollection()->findOne([self::FIELD_KEY, $key]);
-    	if (!$item) {
-    		return null;
-    	}
+        $item = $this->getCollection()->findOne([self::FIELD_KEY => $key]);
+        if (!$item) {
+            return null;
+        }
 
-    	return $item[self::FIELD_VALUE];
+        return $item[self::FIELD_VALUE];
     }
 
     /**
@@ -90,7 +92,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getItems(array $keys)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -102,12 +104,12 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function hasItem($key)
     {
-    	$item = $this->getCollection()->findOne([self::FIELD_KEY, $key]);
-    	if (!$item) {
-    		return false;
-    	}
+        $item = $this->getCollection()->findOne([self::FIELD_KEY, $key]);
+        if (!$item) {
+            return false;
+        }
 
-    	return true;
+        return true;
     }
 
     /**
@@ -119,7 +121,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function hasItems(array $keys)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -131,7 +133,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getMetadata($key)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -143,7 +145,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getMetadatas(array $keys)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /* writing */
@@ -158,12 +160,12 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function setItem($key, $value)
     {
-    	$this->getCollection()->updateOne([self::FIELD_KEY => $key],
-    		['$set' => [
-    			self::FIELD_VALUE => $value,
-    			self::FIELD_DATESTAMP => new UTCDateTime(),
-    		]],
-    		['upsert' => true, 'w' => 1]);
+        $this->getCollection()->updateOne([self::FIELD_KEY => $key],
+            ['$set' => [
+                self::FIELD_VALUE => $value,
+                self::FIELD_DATESTAMP => new UTCDateTime(),
+            ]],
+            ['upsert' => true, 'w' => 1]);
     }
 
     /**
@@ -175,7 +177,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function setItems(array $keyValuePairs)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -188,7 +190,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function addItem($key, $value)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -200,7 +202,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function addItems(array $keyValuePairs)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -213,7 +215,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function replaceItem($key, $value)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -225,7 +227,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function replaceItems(array $keyValuePairs)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -244,7 +246,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function checkAndSetItem($token, $key, $value)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -256,7 +258,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function touchItem($key)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -268,7 +270,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function touchItems(array $keys)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -280,7 +282,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function removeItem($key)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -292,7 +294,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function removeItems(array $keys)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -305,7 +307,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function incrementItem($key, $value)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -317,7 +319,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function incrementItems(array $keyValuePairs)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -330,7 +332,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function decrementItem($key, $value)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /**
@@ -342,7 +344,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function decrementItems(array $keyValuePairs)
     {
-    	throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
+        throw new UnsupportedMethodCallException(__METHOD__ . ' is not suported');
     }
 
     /* status */
@@ -354,7 +356,7 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getCapabilities()
     {
-		return $this->capabilities  = new Capabilities(
+        return $this->capabilities  = new Capabilities(
             $this,
             new stdClass(),
             [
@@ -389,11 +391,11 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function setTags($key, array $tags)
     {
-    	$this->getCollection()->updateOne([self::FIELD_KEY => $key],
-    		['$set' => [
-    			self::FIELD_TAGS => $value,
-    		]],
-    		['upsert' => true, 'w' => 1]);
+        $this->getCollection()->updateOne([self::FIELD_KEY => $key],
+            ['$set' => [
+                self::FIELD_TAGS => $tags,
+            ]],
+            ['upsert' => true, 'w' => 1]);
     }
 
     /**
@@ -404,12 +406,12 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function getTags($key)
     {
-    	$item = $this->getCollection()->findOne([self::FIELD_KEY, $key]);
-    	if (!$item) {
-    		return false;
-    	}
+        $item = $this->getCollection()->findOne([self::FIELD_KEY, $key]);
+        if (!$item) {
+            return false;
+        }
 
-    	return $item[self::FIELD_TAGS];
+        return $item[self::FIELD_TAGS];
     }
 
     /**
@@ -424,8 +426,8 @@ class MongoDb implements StorageInterface, TaggableInterface
      */
     public function clearByTags(array $tags, $disjunction = false)
     {
-    	// tags: { $in: ['red', 'blank'] }
-    	$this->getCollection()->deleteMany(['tags' => ['$in' => $tags]]);
+        // tags: { $in: ['red', 'blank'] }
+        $this->getCollection()->deleteMany(['tags' => ['$in' => $tags]]);
     }
 
     /**
