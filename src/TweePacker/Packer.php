@@ -50,7 +50,7 @@ class Packer
         } else {
             $value = $raw;
         }
-        return unserialize($value);
+        return unserialize((string) $value);
     }
 
     public function clearByTags(array $tags)
