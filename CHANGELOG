@@ -2,6 +2,9 @@
 VERSION 2  A NEW RELEASE THTA USES MONGODB AS STORAGE
 =====================================================
 
+   Version 2.1 - fix get array instead of string
+      26/07/2024 10:37  2.1.0  initial release
+
    Version 2.0 - a new release thta uses mongodb as storage
       19/02/2024 08:19  2.0.5  string for unserialize
       10/11/2023 10:39  2.0.4  restore mondb class
