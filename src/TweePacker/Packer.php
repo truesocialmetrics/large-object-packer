@@ -50,6 +50,10 @@ class Packer
         } else {
             $value = $raw;
         }
+        if (is_array($value)) {
+            return $value;
+        }
+
         return unserialize((string) $value);
     }
 
